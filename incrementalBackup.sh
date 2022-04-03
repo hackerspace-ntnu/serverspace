@@ -5,13 +5,13 @@
 
 # Directory path
 declare -a loc
-loc=("/home/alexamol/foo/goo" "/home/alexamol/foo/hoo")
+loc=("/home/dingseboms/foo" "/home/dingseboms/goo")
 basename -a ${loc[*]}
 
 
 function incrementalBackup () {
     name="inc-backup$(date +"%d-%m-%y")"
-    dest="/home/alexamol/$HOSTNAME-backup/$name"
+    dest="/hackerspace-backups/$HOSTNAME-backup/$name"
     
     if [ -d "$dest" ]; then
         echo "$dest exists."
@@ -30,7 +30,7 @@ function incrementalBackup () {
 
 function fullBackup () {
     name="full-backup$(date +"%d-%m-%y")"
-    dest="/home/alexamol/$HOSTNAME-backup/$name"
+    dest="/home/dingseboms/$HOSTNAME-backup/$name"
     
     if [ -d "$dest" ]; then
         echo "$dest exists."
@@ -54,8 +54,8 @@ if [ "$today" == "$backupday" ]; then
     echo "Full backup"
     fullBackup
 
-    full="/home/alexamol/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y")"
-    fullzip="/home/alexamol/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y").zip"
+    full="/home/dingseboms/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y")"
+    fullzip="/home/dingseboms/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y").zip"
 
     if [ $(find $full -maxdepth 0 -type d) ]; then
         cd $(dirname $full); zip -r $(basename $full) .
@@ -67,8 +67,8 @@ else
     echo "Incremental backup"
     incrementalBackup
 
-    inc="/home/alexamol/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y")"
-    inczip="/home/alexamol/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y").zip"
+    inc="/home/dingseboms/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y")"
+    inczip="/home/dingseboms/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y").zip"
 
     if [ $(find $inc -maxdepth 0 -type d) ]; then
         cd $(dirname $inc); zip -r $(basename $inc) .
