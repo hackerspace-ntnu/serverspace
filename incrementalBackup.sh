@@ -50,12 +50,12 @@ today="$(date +%A)"
 backupday="Sunday"
 if [ "$today" == "$backupday" ]; then
 
-    echo "$today is $backupday"
-    echo "Full backup"
+    # echo "$today is $backupday"
+    # echo "Full backup"
     fullBackup
 
-    full="/home/dingseboms/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y")"
-    fullzip="/home/dingseboms/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y").zip"
+    full="/hackerspace-backups/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y")"
+    fullzip="/hackerspace-backups/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y").zip"
 
     if [ $(find $full -maxdepth 0 -type d) ]; then
         cd $(dirname $full); zip -r $(basename $full) .
@@ -63,12 +63,12 @@ if [ "$today" == "$backupday" ]; then
     fi
 
 else 
-    echo "$today is not $backupday"
-    echo "Incremental backup"
+    # echo "$today is not $backupday"
+    # echo "Incremental backup"
     incrementalBackup
 
-    inc="/home/dingseboms/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y")"
-    inczip="/home/dingseboms/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y").zip"
+    inc="/hackerspace-backups/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y")"
+    inczip="/hackerspace-backups/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y").zip"
 
     if [ $(find $inc -maxdepth 0 -type d) ]; then
         cd $(dirname $inc); zip -r $(basename $inc) .
