@@ -30,7 +30,7 @@ function incrementalBackup () {
 
 function fullBackup () {
     name="full-backup$(date +"%d-%m-%y")"
-    dest="/home/dingseboms/$HOSTNAME-backup/$name"
+    dest="/hackerspace-backups/$HOSTNAME-backup/$name"
     
     if [ -d "$dest" ]; then
         echo "$dest exists."
