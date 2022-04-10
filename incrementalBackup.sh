@@ -5,7 +5,7 @@
 
 # Directory path
 declare -a loc
-loc=("/home/dingseboms/foo" "/home/dingseboms/goo")
+loc=("/home/alexamol/foo" "/home/alexamol/heihei")
 basename -a ${loc[*]}
 
 
