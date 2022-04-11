@@ -1,17 +1,12 @@
 #!/bin/bash
 
-
-# Må sette opp cronjob. Alternativ til task scheduler
-
-# Directory path
-declare -a loc
-loc=("/home/alexamol/foo" "/home/alexamol/heihei")
-basename -a ${loc[*]}
-
+declare -a locations  # backup paths
+locations=("/home/dingseboms")
+basename -a ${locations[*]}
 
 function incrementalBackup () {
     name="inc-backup$(date +"%d-%m-%y")"
-    dest="/hackerspace-backups/$HOSTNAME-backup/$name"
+    dest="/home/$USER/hackerspace-backups/$HOSTNAME-backup/$name"
     
     if [ -d "$dest" ]; then
         echo "$dest exists."
@@ -19,18 +14,18 @@ function incrementalBackup () {
         mkdir -p $dest
     fi
 
-    for (( i=0; i<${#loc[@]}; i++ )); do    # ${#loc[@]} = loc.length
-        base=$(basename ${loc[$i]})
+    for (( i=0; i<${#locations[@]}; i++ )); do    # ${#locations[@]} = locations.length
+        base=$(basename ${locations[$i]})
         backupdest="$dest/$base"
         mkdir -p $backupdest
-        find ${loc[$i]}/* -mmin -60 -exec cp -rf "{}"  $backupdest \;
-        # find ${loc[$i]}/. -mmin -$(( 60*24 )) -exec cp -rf "{}"  $backupdest \;
+        find ${locations[$i]}/* -mmin -60 -exec cp -rf "{}"  $backupdest \;
+        # find ${locations[$i]}/. -mmin -$(( 60*24 )) -exec cp -rf "{}"  $backupdest \;
     done
 }
 
 function fullBackup () {
     name="full-backup$(date +"%d-%m-%y")"
-    dest="/hackerspace-backups/$HOSTNAME-backup/$name"
+    dest="/home/$USER/hackerspace-backups/$HOSTNAME-backup/$name"
     
     if [ -d "$dest" ]; then
         echo "$dest exists."
@@ -38,24 +33,21 @@ function fullBackup () {
         mkdir -p $dest
     fi
 
-    for (( i=0; i<${#loc[@]}; i++ )); do    # ${#loc[@]} = loc.length
-        base=$(basename ${loc[$i]})
+    for (( i=0; i<${#locations[@]}; i++ )); do    # ${#locations[@]} = locations.length
+        base=$(basename ${locations[$i]})
         backupdest="$dest/$base"
         mkdir -p $backupdest
-        find ${loc[$i]}/. -exec cp -rf "{}"  $backupdest \;
+        find ${locations[$i]}/. -exec cp -rf "{}"  $backupdest \;
     done
 }
 
 today="$(date +%A)"
 backupday="Sunday"
 if [ "$today" == "$backupday" ]; then
-
-    # echo "$today is $backupday"
-    # echo "Full backup"
     fullBackup
 
-    full="/hackerspace-backups/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y")"
-    fullzip="/hackerspace-backups/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y").zip"
+    full="/home/$USER/hackerspace-backups/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y")"
+    fullzip="/home/$USER/hackerspace-backups/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y").zip"
 
     if [ $(find $full -maxdepth 0 -type d) ]; then
         cd $(dirname $full); zip -r $(basename $full) .
@@ -63,12 +55,10 @@ if [ "$today" == "$backupday" ]; then
     fi
 
 else 
-    # echo "$today is not $backupday"
-    # echo "Incremental backup"
     incrementalBackup
 
-    inc="/hackerspace-backups/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y")"
-    inczip="/hackerspace-backups/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y").zip"
+    inc="/home/$USER/hackerspace-backups/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y")"
+    inczip="/home/$USER/hackerspace-backups/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y").zip"
 
     if [ $(find $inc -maxdepth 0 -type d) ]; then
         cd $(dirname $inc); zip -r $(basename $inc) .

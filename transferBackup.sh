@@ -1,45 +1,39 @@
 #!/bin/bash
 
-dingseboms="dingseboms@129.241.106.24"
-duppeditt="duppeditt@129.241.106.25"
+# Dingseboms_local -> Duppeditt_hackerspace
+dingsebomsHack="hackerspace@129.241.106.24"
+duppedittHack="hackerspace@129.241.106.25"
 
 dest=$HOSTNAME-backup
-backup="/hackerspace-backups/$dest"
+localBackup="/home/$USER/hackerspace-backups/$dest"    # ~/hackerspace-backups/LAPTOP-40AKUSI6-backup
+
+today="$(date +%A)"
+backupday="Sunday"
+if [ "$today" == "$backupday" ]; then
+    fullzip="$localBackup/full-backup$(date +"%d-%m-%y").zip"
+    scp $fullzip $duppedittHack:$localBackup
+else
+    inczip="$localBackup/inc-backup$(date +"%d-%m-%y").zip"
+    scp $inczip $duppedittHack:$localBackup
+fi
 
 
-# currentuser=$USER   # Scriptet kjøres i sudo så må lagre brukeren som backupes
+# # Duppeditt_local -> Dingseboms_hackerspace
+# dingsebomsHack="hackerspace@129.241.106.24"
+# duppedittHack="hackerspace@129.241.106.25"
 
+# dest=$HOSTNAME-backup
+# localBackup="/home/$USER/hackerspace-backups/$dest"    # ~/hackerspace-backups/LAPTOP-40AKUSI6-backup
 
-# scp file.txt remote_username@10.10.0.2:/remote/directory
-
-
-# Incremental backup
-inczip="$backup/inc-backup$(date +"%d-%m-%y").zip"
-scp $inczip $duppeditt:$backup
-
-scp $inczip $duppeditt:$backup -i ~/.ssh/gh-actions-update-keys
-
-
-
-# Full backup
-fullzip="$backup/full-backup$(date +"%d-%m-%y").zip"
-scp $fullzip $duppeditt:$backup
-
-scp $fullzip $duppeditt:$backup -i ~/.ssh/gh-actions-update-keys
-
-
-
-# Local-Dingseboms
-
-dingsebomsbackup="hackerspace@129.241.106.24"
-
-fullzip="$backup/full-backup$(date +"%d-%m-%y").zip"
-scp $fullzip $dingseboms:/home/dingseboms/dingseboms-backup
-
-
-
-# scp $fullzip $duppeditt:$backup -i ~/.ssh/gh-actions-update-keys
-
+# today="$(date +%A)"
+# backupday="Sunday"
+# if [ "$today" == "$backupday" ]; then
+#     fullzip="$localBackup/full-backup$(date +"%d-%m-%y").zip"
+#     scp $fullzip $dingsebomsHack:$localBackup
+# else
+#     inczip="$localBackup/inc-backup$(date +"%d-%m-%y").zip"
+#     scp $inczip $dingsebomsHack:$localBackup
+# fi
 
 
 
