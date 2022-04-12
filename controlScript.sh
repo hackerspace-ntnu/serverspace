@@ -3,10 +3,8 @@
 # Må mekke cronjob
 
 
-./incrementalBackup.sh
+source ./incrementalBackup.sh
 
-./transferBackup.sh
-
-
+source ./transferBackup.sh
 
 

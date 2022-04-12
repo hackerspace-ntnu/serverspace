@@ -1,8 +1,13 @@
 #!/bin/bash
 
 declare -a locations  # backup paths
-locations=("/home/dingseboms")
-basename -a ${locations[*]}
+locations=(
+    "/home/hackerspace/media" 
+    "/home/hackerspace/website/website/local_settings.py" 
+    "/etc/nginx" 
+    "/etc/systemd/system/gunicorn.service" 
+    "/etc/systemd/system/gunicorn.socket" 
+)
 
 function incrementalBackup () {
     name="inc-backup$(date +"%d-%m-%y")"
@@ -14,32 +19,57 @@ function incrementalBackup () {
         mkdir -p $dest
     fi
 
-    for (( i=0; i<${#locations[@]}; i++ )); do    # ${#locations[@]} = locations.length
+    for (( i=0; i<${#locations[@]}; i++ )); do
         base=$(basename ${locations[$i]})
-        backupdest="$dest/$base"
-        mkdir -p $backupdest
-        find ${locations[$i]}/* -mmin -60 -exec cp -rf "{}"  $backupdest \;
-        # find ${locations[$i]}/. -mmin -$(( 60*24 )) -exec cp -rf "{}"  $backupdest \;
+        if [[ -d ${locations[$i]} ]]; then
+            base=$(basename ${locations[$i]})
+            backupdest="$dest/$base"
+            mkdir -p $backupdest
+            find ${locations[$i]}/* -mmin -60 -exec cp -rp "{}"  $backupdest \;
+        elif [[ -f ${locations[$i]} ]]; then
+            find ${locations[$i]} -maxdepth 0 -type f -mmin -60 -exec cp -rp "{}" $dest \;
+        else
+            echo "${locations[$i]} is not valid"
+            exit 1
+        fi
     done
+
+    PGUSER=production
+    PGDATABASE=production
+    pg_dump -U $PGUSER $PGDATABASE > "$dest/database-production-backup.sql"
+
 }
 
 function fullBackup () {
     name="full-backup$(date +"%d-%m-%y")"
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
-    
+
     if [ -d "$dest" ]; then
         echo "$dest exists."
     else 
         mkdir -p $dest
     fi
 
-    for (( i=0; i<${#locations[@]}; i++ )); do    # ${#locations[@]} = locations.length
+    for (( i=0; i<${#locations[@]}; i++ )); do
         base=$(basename ${locations[$i]})
-        backupdest="$dest/$base"
-        mkdir -p $backupdest
-        find ${locations[$i]}/. -exec cp -rf "{}"  $backupdest \;
+        if [[ -d ${locations[$i]} ]]; then
+            base=$(basename ${locations[$i]})
+            backupdest="$dest/$base"
+            mkdir -p $backupdest
+            find ${locations[$i]}/* -exec cp -rp "{}"  $backupdest \;
+        elif [[ -f ${locations[$i]} ]]; then
+            find ${locations[$i]} -maxdepth 0 -type f -exec cp -rp "{}" $dest \;
+        else
+            echo "${locations[$i]} is not valid"
+            exit 1
+        fi
     done
+
+    PGUSER=production
+    PGDATABASE=production
+    pg_dump -U $PGUSER $PGDATABASE > "$dest/database-production-backup.sql"
 }
+
 
 today="$(date +%A)"
 backupday="Sunday"
@@ -66,5 +96,7 @@ else
     fi
 
 fi
+
+
 
 
