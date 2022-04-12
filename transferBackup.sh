@@ -8,7 +8,8 @@ dest=$HOSTNAME-backup
 localBackup="/home/$USER/hackerspace-backups/$dest"    # ~/hackerspace-backups/LAPTOP-40AKUSI6-backup
 
 today="$(date +%A)"
-backupday="Sunday"
+# backupday="Sunday"
+backupday="Tuesday"
 if [ "$today" == "$backupday" ]; then
     fullzip="$localBackup/full-backup$(date +"%d-%m-%y").zip"
     scp $fullzip $duppedittHack:$localBackup

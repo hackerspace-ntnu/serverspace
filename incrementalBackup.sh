@@ -72,7 +72,8 @@ function fullBackup () {
 
 
 today="$(date +%A)"
-backupday="Sunday"
+# backupday="Sunday"
+backupday="Tuesday"
 if [ "$today" == "$backupday" ]; then
     fullBackup
 
