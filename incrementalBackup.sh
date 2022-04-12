@@ -25,7 +25,7 @@ function incrementalBackup () {
             base=$(basename ${locations[$i]})
             backupdest="$dest/$base"
             mkdir -p $backupdest
-            find ${locations[$i]}/* -mmin -60 -exec cp -rp "{}"  $backupdest \;
+            find ${locations[$i]}/* -mmin -60 -exec cp -rp --parents "{}"  $backupdest \;
         elif [[ -f ${locations[$i]} ]]; then
             find ${locations[$i]} -maxdepth 0 -type f -mmin -60 -exec cp -rp --parents "{}" $dest \;
         else
@@ -56,7 +56,7 @@ function fullBackup () {
             base=$(basename ${locations[$i]})
             backupdest="$dest/$base"
             mkdir -p $backupdest
-            find ${locations[$i]}/* -exec cp -rp "{}"  $backupdest \;
+            find ${locations[$i]}/* -exec cp -rp --parents "{}"  $backupdest \;
         elif [[ -f ${locations[$i]} ]]; then
             find ${locations[$i]} -maxdepth 0 -type f -exec cp -rp --parents "{}" $dest \;
         else
