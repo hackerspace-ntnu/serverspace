@@ -27,7 +27,7 @@ function incrementalBackup () {
             mkdir -p $backupdest
             find ${locations[$i]}/* -mmin -60 -exec cp -rp "{}"  $backupdest \;
         elif [[ -f ${locations[$i]} ]]; then
-            find ${locations[$i]} -maxdepth 0 -type f -mmin -60 -exec cp -rpP "{}" $dest \;
+            find ${locations[$i]} -maxdepth 0 -type f -mmin -60 -exec cp -rp --parents "{}" $dest \;
         else
             echo "${locations[$i]} is not valid"
             exit 1
@@ -58,7 +58,7 @@ function fullBackup () {
             mkdir -p $backupdest
             find ${locations[$i]}/* -exec cp -rp "{}"  $backupdest \;
         elif [[ -f ${locations[$i]} ]]; then
-            find ${locations[$i]} -maxdepth 0 -type f -exec cp -rpP "{}" $dest \;
+            find ${locations[$i]} -maxdepth 0 -type f -exec cp -rp --parents "{}" $dest \;
         else
             echo "${locations[$i]} is not valid"
             exit 1
