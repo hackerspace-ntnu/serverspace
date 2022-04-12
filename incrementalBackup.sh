@@ -70,10 +70,8 @@ function fullBackup () {
 dingsebomsHack="hackerspace@129.241.106.24"
 duppedittHack="hackerspace@129.241.106.25"
 localBackup="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup"
-# dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup"
-
-fullzip="localBackup/full-backup$(date +"%d-%m-%y").zip"
-inczip="localBackup/inc-backup$(date +"%d-%m-%y").zip"
+fullzip="$localBackup/full-backup$(date +"%d-%m-%y").zip"
+inczip="$localBackup/inc-backup$(date +"%d-%m-%y").zip"
 
 today="$(date +%A)"
 # backupday="Sunday"
@@ -91,10 +89,10 @@ if [ "$today" == "$backupday" ]; then
     fi
 
     # SCP til andre serveren i miljøet. Sjekker først hvem som er hvem
-    if [ "$HOSTNAME" == "Dingseboms" ]; then
-        scp $fullzip $duppedittHack:$(dirname $dest)
-    elif [ "$HOSTNAME" == "Duppeditt" ]; then
-        scp $fullzip $dingsebomsHack:$(dirname $dest)
+    if [ "$HOSTNAME" == "dingseboms" ]; then
+        scp $fullzip $duppedittHack:$localBackup
+    elif [ "$HOSTNAME" == "duppeditt" ]; then
+        scp $fullzip $dingsebomsHack:$localBackup
     fi
 
 else 
@@ -110,10 +108,10 @@ else
     fi
 
     # SCP til andre serveren i miljøet. Sjekker først hvem som er hvem
-    if [ "$HOSTNAME" == "Dingseboms" ]; then
-        scp $inczip $duppedittHack:$(dirname $dest)
-    elif [ "$HOSTNAME" == "Duppeditt" ]; then
-        scp $inczip $dingsebomsHack:$(dirname $dest)
+    if [ "$HOSTNAME" == "dingseboms" ]; then
+        scp $inczip $duppedittHack:$localBackup
+    elif [ "$HOSTNAME" == "duppeditt" ]; then
+        scp $inczip $dingsebomsHack:$localBackup
     fi
 fi
 
