@@ -14,7 +14,7 @@ function incrementalBackup () {
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
     
     if [ -d "$dest" ]; then
-        echo "$dest exists."
+#         echo "$dest exists."
     else 
         mkdir -p $dest
     fi
@@ -22,9 +22,9 @@ function incrementalBackup () {
     for (( i=0; i<${#locations[@]}; i++ )); do
         base=$(basename ${locations[$i]})
         if [[ -d ${locations[$i]} ]]; then
-            find ${locations[$i]}/* -mmin -60 -exec cp -rp --parents "{}"  $dest \;
+            find ${locations[$i]}/* -mmin -1440 -exec cp -rp --parents "{}"  $dest \;
         elif [[ -f ${locations[$i]} ]]; then
-            find ${locations[$i]} -maxdepth 0 -type f -mmin -60 -exec cp -rp --parents "{}" $dest \;
+            find ${locations[$i]} -maxdepth 0 -type f -mmin -1440 -exec cp -rp --parents "{}" $dest \;
         else
             echo "${locations[$i]} is not valid"
             exit 1
@@ -39,7 +39,7 @@ function fullBackup () {
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
 
     if [ -d "$dest" ]; then
-        echo "$dest exists."
+#         echo "$dest exists."
     else 
         mkdir -p $dest
     fi
