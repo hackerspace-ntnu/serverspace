@@ -31,10 +31,7 @@ function incrementalBackup () {
         fi
     done
 
-    PGUSER=production
-    PGDATABASE=production
     pg_dump -U $PGUSER $PGDATABASE > "$dest/database-production-backup.sql"
-
 }
 
 function fullBackup () {
@@ -59,14 +56,14 @@ function fullBackup () {
         fi
     done
 
-    PGUSER=production
-    PGDATABASE=production
     pg_dump -U $PGUSER $PGDATABASE > "$dest/database-production-backup.sql"
 }
 
+# Database variabler
+PGUSER="production"
+PGDATABASE="production"
+
 # Variabler for SCP
-
-
 dingsebomsHack="hackerspace@129.241.106.24"
 duppedittHack="hackerspace@129.241.106.25"
 localBackup="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup"
