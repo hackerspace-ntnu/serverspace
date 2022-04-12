@@ -71,8 +71,7 @@ fullzip="$localBackup/full-backup$(date +"%d-%m-%y").zip"
 inczip="$localBackup/inc-backup$(date +"%d-%m-%y").zip"
 
 today="$(date +%A)"
-# backupday="Sunday"
-backupday="Tuesday"
+backupday="Sunday"
 if [ "$today" == "$backupday" ]; then
     fullBackup
 
