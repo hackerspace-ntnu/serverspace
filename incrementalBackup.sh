@@ -69,9 +69,11 @@ function fullBackup () {
 
 dingsebomsHack="hackerspace@129.241.106.24"
 duppedittHack="hackerspace@129.241.106.25"
-# localBackup="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup"
-fullzip="$(dirname $dest)/full-backup$(date +"%d-%m-%y").zip"
-inczip="$(dirname $dest)/inc-backup$(date +"%d-%m-%y").zip"
+localBackup="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup"
+# dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup"
+
+fullzip="localBackup/full-backup$(date +"%d-%m-%y").zip"
+inczip="localBackup/inc-backup$(date +"%d-%m-%y").zip"
 
 today="$(date +%A)"
 # backupday="Sunday"
