@@ -12,10 +12,8 @@ locations=(
 function incrementalBackup () {
     name="inc-backup$(date +"%d-%m-%y")"
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
-    
-    if [ -d "$dest" ]; then
-#         echo "$dest exists."
-    else 
+
+    if [ ! -d "$dest" ]; then
         mkdir -p $dest
     fi
 
@@ -38,9 +36,7 @@ function fullBackup () {
     name="full-backup$(date +"%d-%m-%y")"
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
 
-    if [ -d "$dest" ]; then
-#         echo "$dest exists."
-    else 
+    if [ ! -d "$dest" ]; then
         mkdir -p $dest
     fi
 
