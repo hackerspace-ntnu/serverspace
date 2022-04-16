@@ -9,8 +9,10 @@ locations=(
     "/etc/systemd/system/gunicorn.socket" 
 )
 
+current_date=$(date +"%y-%m-%d")     # current date
+
 function incrementalBackup () {
-    name="inc-backup$(date +"%d-%m-%y")"
+    name="inc-backup$current_date"
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
 
     if [ ! -d "$dest" ]; then
@@ -33,7 +35,7 @@ function incrementalBackup () {
 }
 
 function fullBackup () {
-    name="full-backup$(date +"%d-%m-%y")"
+    name="full-backup$current_date"
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
 
     if [ ! -d "$dest" ]; then
@@ -63,16 +65,16 @@ PGDATABASE="production"
 dingsebomsHack="hackerspace@129.241.106.24"
 duppedittHack="hackerspace@129.241.106.25"
 localBackup="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup"
-fullzip="$localBackup/full-backup$(date +"%d-%m-%y").zip"
-inczip="$localBackup/inc-backup$(date +"%d-%m-%y").zip"
+fullzip="$localBackup/full-backup$current_date.zip"
+inczip="$localBackup/inc-backup$current_date.zip"
 
 today="$(date +%A)"
 backupday="Sunday"
 if [ "$today" == "$backupday" ]; then
     fullBackup
 
-    full="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y")"
-    fullzip="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/full-backup$(date +"%d-%m-%y").zip"
+    full="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/full-backup$current_date"
+    fullzip="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/full-backup$current_date.zip"
 
     # Zipper backup og sletter den gamle
     if [ $(find $full -maxdepth 0 -type d) ]; then
@@ -90,8 +92,8 @@ if [ "$today" == "$backupday" ]; then
 else 
     incrementalBackup
 
-    inc="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y")"
-    inczip="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/inc-backup$(date +"%d-%m-%y").zip"
+    inc="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/inc-backup$current_date"
+    inczip="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/inc-backup$current_date.zip"
 
     # Zipper backup og sletter den gamle
     if [ $(find $inc -maxdepth 0 -type d) ]; then
