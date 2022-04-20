@@ -74,11 +74,10 @@ if [ "$today" == "$backupday" ]; then
     fullBackup
 
     full="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/full-backup$current_date"
-    fullzip="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/full-backup$current_date.zip"
 
     # Zipper backup og sletter den gamle
     if [ $(find $full -maxdepth 0 -type d) ]; then
-        cd $(dirname $full); zip -r $(basename $full) .
+        cd $(dirname $full); zip -r $(basename $full) ./$(basename $inc)
         rm -rf $full
     fi
 
@@ -93,11 +92,10 @@ else
     incrementalBackup
 
     inc="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/inc-backup$current_date"
-    inczip="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/inc-backup$current_date.zip"
 
     # Zipper backup og sletter den gamle
     if [ $(find $inc -maxdepth 0 -type d) ]; then
-        cd $(dirname $inc); zip -r $(basename $inc) .
+        cd $(dirname $inc); zip -r $(basename $inc) ./$(basename $inc)
         rm -rf $inc
     fi
 
