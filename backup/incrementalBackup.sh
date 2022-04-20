@@ -91,6 +91,7 @@ if [ "$today" == "$backupday" ]; then
     fi
 
     # Laster opp backupen til Google Drive
+    cd /home/hackerspace/serverspace/backup/website-gdrive-backup
     python3 backup_to_drive.py $fullzip
 else 
     incrementalBackup
@@ -111,6 +112,7 @@ else
     fi
 
     # Laster opp backupen til Google Drive
+    cd /home/hackerspace/serverspace/backup/website-gdrive-backup
     python3 backup_to_drive.py $inczip
 fi
 
