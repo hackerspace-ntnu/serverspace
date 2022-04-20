@@ -11,6 +11,8 @@ locations=(
 
 current_date=$(date +"%Y-%m-%d")     # current date
 
+echo " $current_date ------------------------------------------------------------"
+
 function incrementalBackup () {
     name="inc-backup$current_date"
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
@@ -107,6 +109,7 @@ else
     fi
 fi
 
-
+echo ""
+echo ""
 
 
