@@ -9,7 +9,7 @@ locations=(
     "/etc/systemd/system/gunicorn.socket" 
 )
 
-current_date=$(date +"%y-%m-%d")     # current date
+current_date=$(date +"%Y-%m-%d")     # current date
 
 function incrementalBackup () {
     name="inc-backup$current_date"
