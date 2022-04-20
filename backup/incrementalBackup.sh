@@ -90,6 +90,8 @@ if [ "$today" == "$backupday" ]; then
         scp $fullzip $dingsebomsHack:$localBackup
     fi
 
+    # Laster opp backupen til Google Drive
+    python3 backup_to_drive.py $fullzip
 else 
     incrementalBackup
 
@@ -107,6 +109,9 @@ else
     elif [ "$HOSTNAME" == "duppeditt" ]; then
         scp $inczip $dingsebomsHack:$localBackup
     fi
+
+    # Laster opp backupen til Google Drive
+    python3 backup_to_drive.py $inczip
 fi
 
 echo ""
