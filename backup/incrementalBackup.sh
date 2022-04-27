@@ -79,7 +79,7 @@ if [ "$today" == "$backupday" ]; then
 
     # Zipper backup og sletter den gamle
     if [ $(find $full -maxdepth 0 -type d) ]; then
-        cd $(dirname $full); zip -r $(basename $full) ./$(basename $inc)
+        cd $(dirname $full); zip -r $(basename $full) ./$(basename $full)
         rm -rf $full
     fi
 
