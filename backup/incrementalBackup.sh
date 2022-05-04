@@ -14,7 +14,7 @@ current_date=$(date +"%Y-%m-%d")     # current date
 echo " $current_date ------------------------------------------------------------"
 
 function incrementalBackup () {
-    name="inc-backup$current_date"
+    name="$current_date-inc-backup"
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
 
     if [ ! -d "$dest" ]; then
@@ -37,7 +37,7 @@ function incrementalBackup () {
 }
 
 function fullBackup () {
-    name="full-backup$current_date"
+    name="$current_date-full-backup"
     dest="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$name"
 
     if [ ! -d "$dest" ]; then
@@ -67,15 +67,15 @@ PGDATABASE="production"
 dingsebomsHack="hackerspace@129.241.106.24"
 duppedittHack="hackerspace@129.241.106.25"
 localBackup="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup"
-fullzip="$localBackup/full-backup$current_date.zip"
-inczip="$localBackup/inc-backup$current_date.zip"
+fullzip="$localBackup/$current_date-full-backup.zip"
+inczip="$localBackup/$current_date-inc-backup.zip"
 
 today="$(date +%A)"
 backupday="Sunday"
 if [ "$today" == "$backupday" ]; then
     fullBackup
 
-    full="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/full-backup$current_date"
+    full="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$current_date-full-backup"
 
     # Zipper backup og sletter den gamle
     if [ $(find $full -maxdepth 0 -type d) ]; then
@@ -90,10 +90,13 @@ if [ "$today" == "$backupday" ]; then
         scp $fullzip $dingsebomsHack:$localBackup
     fi
 
+    # Laster opp backupen til Google Drive
+    cd /home/hackerspace/serverspace/backup/website-gdrive-backup
+    python3 backup_to_drive.py $fullzip
 else 
     incrementalBackup
 
-    inc="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/inc-backup$current_date"
+    inc="/home/hackerspace/hackerspace-backups/$HOSTNAME-backup/$current_date-inc-backup"
 
     # Zipper backup og sletter den gamle
     if [ $(find $inc -maxdepth 0 -type d) ]; then
@@ -107,6 +110,10 @@ else
     elif [ "$HOSTNAME" == "duppeditt" ]; then
         scp $inczip $dingsebomsHack:$localBackup
     fi
+
+    # Laster opp backupen til Google Drive
+    cd /home/hackerspace/serverspace/backup/website-gdrive-backup
+    python3 backup_to_drive.py $inczip
 fi
 
 echo ""
