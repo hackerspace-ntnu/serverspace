@@ -1,7 +1,8 @@
 
 # 0 20 * * 0-6 /bin/bash /path/to/incrementalBackup.sh
 # 0 20 * * 0-6 /bin/bash /home/hackerspace/serverspace/backup/incrementalBackup.sh
-0 20 * * 0-6 /bin/bash /home/hackerspace/serverspace/backup/incrementalBackup.sh >> /home/hackerspace/backupSensorLog.txt 2>&1
+0 20 * * 0-6 /bin/bash /home/hackerspace/serverspace/backup/incrementalBackup.sh >> /home/hackerspace/backupSensorLog.txt 2>&1;
+0 0 * * * /usr/bin/find /home/hackerspace/hackerspace-backups/dingseboms-backup -name "*.zip" -type f -mtime +180 -exec rm -f {} \;
 
 
 
