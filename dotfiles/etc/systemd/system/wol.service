@@ -1,0 +1,9 @@
+[Unit]
+Description=Configure Wake-on-LAN
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/ethtool -s ADAPTER_NAME wol g
+
+[Install]
+WantedBy=basic.target
