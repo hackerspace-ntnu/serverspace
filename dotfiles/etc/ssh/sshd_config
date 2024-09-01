@@ -103,7 +103,7 @@ UsePAM yes
 #VersionAddendum none
 
 # no default banner path
-#Banner none
+Banner /etx/banner.txt
 
 # override default of no subsystems
 Subsystem	sftp	/usr/libexec/sftp-server
