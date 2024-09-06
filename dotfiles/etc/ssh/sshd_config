@@ -11,9 +11,9 @@
 # default value.
 
 Port SSH_PORT
-#AddressFamily any
-#ListenAddress 0.0.0.0
-#ListenAddress ::
+AddressFamily any
+ListenAddress 0.0.0.0
+ListenAddress ::
 
 HostKey /etc/ssh/ssh_host_rsa_key
 HostKey /etc/ssh/ssh_host_ecdsa_key
@@ -84,11 +84,11 @@ UsePAM yes
 #AllowAgentForwarding yes
 #AllowTcpForwarding yes
 #GatewayPorts no
-#X11Forwarding no
+X11Forwarding yes
 #X11DisplayOffset 10
 #X11UseLocalhost yes
 #PermitTTY yes
-#PrintMotd yes
+PrintMotd no
 #PrintLastLog yes
 #TCPKeepAlive yes
 #PermitUserEnvironment no
@@ -103,7 +103,10 @@ UsePAM yes
 #VersionAddendum none
 
 # no default banner path
-Banner /etx/banner.txt
+Banner /etc/banner.txt
+
+# Allow client to pass locale environment variables
+AcceptEnv LANG LC_*
 
 # override default of no subsystems
 Subsystem	sftp	/usr/libexec/sftp-server
@@ -114,6 +117,3 @@ Subsystem	sftp	/usr/libexec/sftp-server
 #	AllowTcpForwarding no
 #	PermitTTY no
 #	ForceCommand cvs server
-
-
-PasswordAuthentication no
