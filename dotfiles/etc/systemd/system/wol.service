@@ -1,5 +1,5 @@
 [Unit]
-Description=Configure Wake-on-LAN
+Description=Wake-on-LAN
 
 [Service]
 Type=oneshot
