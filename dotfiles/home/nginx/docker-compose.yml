@@ -9,3 +9,9 @@ services:
     volumes:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
+    networks:
+      - nginx
+networks:
+  nginx:
+    driver: bridge
+    external: true
