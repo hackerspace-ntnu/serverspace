@@ -15,7 +15,7 @@ services:
 
 
   synapse_db:
-    image: postgres:14-alpine #Consider a more updated version. 
+    image: postgres:16-alpine 
     restart: unless-stopped
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
