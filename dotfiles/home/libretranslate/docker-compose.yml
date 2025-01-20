@@ -15,16 +15,11 @@ services:
       - LT_API_KEYS_DB_PATH=/app/db/api_keys.db
       - LT_UPDATE_MODELS=true
     volumes:
-      - libretranslate_api_keys:/app/db
+      - ./data/api_keys:/app/db
       # Keep the models in a docker volume, to avoid re-downloading on startup
-      - libretranslate_models:/home/libretranslate/.local:rw
+      - ./data/models:/home/libretranslate/.local:rw
     networks:
       - nginx_default
-
-volumes:
-  libretranslate_api_keys:
-  libretranslate_models:
-
 
 networks:
   nginx_default:
