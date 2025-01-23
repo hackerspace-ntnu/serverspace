@@ -11,7 +11,7 @@ services:
     networks:
       - nginx_default
   synapse_db:
-    image: postgres:16-alpine
+    image: postgres:16
     restart: unless-stopped
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
