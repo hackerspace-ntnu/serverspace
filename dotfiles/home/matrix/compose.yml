@@ -10,7 +10,6 @@ services:
       - synapse_db
     networks:
       - nginx_default
-
   synapse_db:
     image: postgres:16-alpine
     restart: unless-stopped
