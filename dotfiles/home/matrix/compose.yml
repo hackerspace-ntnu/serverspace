@@ -1,8 +1,6 @@
-
 services:
-
   synapse:
-    image: docker.io/matrixdotorg/synapse:latest
+    image: docker.io/matrixdotorg/synapse
     restart: unless-stopped
     environment:
       - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
@@ -13,9 +11,8 @@ services:
     networks:
       - nginx_default
 
-
   synapse_db:
-    image: postgres:16-alpine 
+    image: postgres:16-alpine
     restart: unless-stopped
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
@@ -29,7 +26,3 @@ services:
 networks:
   nginx_default:
     external: true
-     
-
-volumes:
-  synapse_db_data:
