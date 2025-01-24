@@ -1,0 +1,40 @@
+services:
+  element:
+    image: vectorim/element-web
+    restart: unless-stopped
+    volumes:
+      - ./data/element/config.json:/app/config.json
+    networks:
+      - nginx_default
+  synapse:
+    image: docker.io/matrixdotorg/synapse
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
+    volumes:
+      - ./data/synapse:/data
+    networks:
+      - nginx_default
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nginx_default
+networks:
+  nginx_default:
+    external: true

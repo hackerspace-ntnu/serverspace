@@ -3,13 +3,10 @@ services:
     image: patrickhulce/lhci-server
     container_name: lighthouseci
     volumes:
-      - lhci-data:/data
+      - ./data:/data
     networks:
       - nginx_default
 
 networks:
   nginx_default:
     external: true
-
-volumes:
-  lhci-data:

@@ -1,10 +1,10 @@
 services:
   libretranslate:
     container_name: libretranslate
-    image: libretranslate/libretranslate:latest
+    image: libretranslate/libretranslate
     restart: unless-stopped
     ports:
-      - "5000:5000"
+      - 5000:5000
     # Logging in docker compose logs
     tty: true
     healthcheck:
@@ -16,11 +16,9 @@ services:
       - LT_UPDATE_MODELS=true
     volumes:
       - ./data/api_keys:/app/db
-      # Keep the models in a docker volume, to avoid re-downloading on startup
       - ./data/models:/home/libretranslate/.local:rw
     networks:
       - nginx_default
-
 networks:
   nginx_default:
     external: true
