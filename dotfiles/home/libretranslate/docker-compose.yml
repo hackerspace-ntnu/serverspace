@@ -1,0 +1,26 @@
+services:
+  libretranslate:
+    container_name: libretranslate
+    image: libretranslate/libretranslate:latest
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    # Logging in docker compose logs
+    tty: true
+    healthcheck:
+      test: [ 'CMD-SHELL', './venv/bin/python scripts/healthcheck.py' ]
+    command: --api-keys --require-api-key-secret --req-limit 0
+    environment:
+      - LT_API_KEYS=true
+      - LT_API_KEYS_DB_PATH=/app/db/api_keys.db
+      - LT_UPDATE_MODELS=true
+    volumes:
+      - ./data/api_keys:/app/db
+      # Keep the models in a docker volume, to avoid re-downloading on startup
+      - ./data/models:/home/libretranslate/.local:rw
+    networks:
+      - nginx_default
+
+networks:
+  nginx_default:
+    external: true
