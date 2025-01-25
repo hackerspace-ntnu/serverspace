@@ -3,7 +3,17 @@ services:
     image: vectorim/element-web
     restart: unless-stopped
     volumes:
-      - ./data/element/config.json:/app/config.json
+      - ./data/element/config.json:/app/config.json:ro
+    networks:
+      - nginx_default
+  synapse-admin:
+    build:
+      context: https://github.com/Awesome-Technologies/synapse-admin.git
+      args:
+        - BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
+    restart: unless-stopped
+    volumes:
+      - ./data/synapse-admin/config.json:/app/config.json:ro
     networks:
       - nginx_default
   synapse:
