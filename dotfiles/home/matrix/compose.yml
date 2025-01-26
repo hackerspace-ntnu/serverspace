@@ -3,7 +3,8 @@ services:
     image: vectorim/element-web
     restart: unless-stopped
     depends_on:
-      - synapse
+      synapse:
+        condition: service_healthy
     volumes:
       - ./data/element/config.json:/app/config.json:ro
     networks:
@@ -15,7 +16,8 @@ services:
         - BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
     restart: unless-stopped
     depends_on:
-      - synapse
+      synapse:
+        condition: service_healthy
     volumes:
       - ./data/synapse-admin/config.json:/app/config.json:ro
     networks:
@@ -24,7 +26,8 @@ services:
     image: halfshot/matrix-hookshot
     restart: unless-stopped
     depends_on:
-      - synapse
+      synapse:
+        condition: service_healthy
     volumes:
       - ./data/hookshot:/data
     networks:
@@ -40,6 +43,11 @@ services:
     volumes:
       - ./data/synapse:/data
       - ./data/hookshot/registration.yml:/data/hookshot/registration.yml:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - nginx_default
   db:
