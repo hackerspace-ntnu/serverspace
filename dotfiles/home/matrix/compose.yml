@@ -2,6 +2,8 @@ services:
   element:
     image: vectorim/element-web
     restart: unless-stopped
+    depends_on:
+      - synapse
     volumes:
       - ./data/element/config.json:/app/config.json:ro
     networks:
@@ -12,8 +14,19 @@ services:
       args:
         - BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
     restart: unless-stopped
+    depends_on:
+      - synapse
     volumes:
       - ./data/synapse-admin/config.json:/app/config.json:ro
+    networks:
+      - nginx_default
+  hookshot:
+    image: halfshot/matrix-hookshot
+    restart: unless-stopped
+    depends_on:
+      - synapse
+    volumes:
+      - ./data/hookshot:/data
     networks:
       - nginx_default
   synapse:
