@@ -39,6 +39,7 @@ services:
       - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
     volumes:
       - ./data/synapse:/data
+      - ./data/hookshot/registration.yml:/data/hookshot/registration.yml:ro
     networks:
       - nginx_default
   db:
