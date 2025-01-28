@@ -1,0 +1,21 @@
+id: matrix-hookshot
+as_token: AS_TOKEN
+hs_token: HS_TOKEN
+namespaces:
+  rooms: []
+  users:
+    - regex: "@hookshot:hackerspace-ntnu.no"
+      exclusive: true
+    - regex: "@_github_.*:hackerspace-ntnu.no"
+      exclusive: true
+  aliases:
+    - regex: "#github_.+:hackerspace-ntnu.no"
+      exclusive: true
+
+sender_localpart: hookshot
+url: "http://matrix-hookshot-1:9993"
+rate_limited: false
+
+de.sorunome.msc2409.push_ephemeral: true
+push_ephemeral: true
+org.matrix.msc3202: true
