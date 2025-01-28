@@ -42,7 +42,7 @@ services:
       - SYNAPSE_CONFIG_PATH=/data/homeserver.yaml
     volumes:
       - ./data/synapse:/data
-      - ./data/hookshot/registration.yml:/data/hookshot/registration.yml:ro
+      - ./data/hookshot/registration.yml:/data/hookshot/registration.yml
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8008/health"]
       interval: 10s
