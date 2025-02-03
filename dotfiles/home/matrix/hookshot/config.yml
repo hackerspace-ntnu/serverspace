@@ -1,0 +1,48 @@
+bridge:
+  domain: hackerspace-ntnu.no
+  url: http://matrix-synapse-1:8008
+  mediaUrl: https://matrix.hackerspace-ntnu.no
+  port: 9993
+  bindAddress: 0.0.0.0
+logging:
+  level: info
+  colorize: true
+  json: false
+  timestampFormat: HH:mm:ss:SSS
+passFile: /data/passkey.pem
+listeners:
+  - port: 9000
+    bindAddress: 0.0.0.0
+    resources:
+      - webhooks
+  - port: 9001
+    bindAddress: 0.0.0.0
+    resources:
+      - metrics
+      - provisioning
+  - port: 9002
+    bindAddress: 0.0.0.0
+    resources:
+      - widgets
+permissions:
+  - actor: hackerspace-ntnu.no
+    services:
+      - service: "*"
+        level: commands
+  - actor: "!pHvtdKEhAUamEJzLfQ:hackerspace-ntnu.no"
+    services:
+      - service: github
+        level: manageConnections
+github:
+  auth:
+    id: GITHUN_APP_ID
+    privateKeyFile: /data/github-key.pem
+  webhook:
+    secret: WEBHOOK_SECRET
+  oauth:
+    client_id: GITHUB_CLIENT_ID
+    client_secret: GITHUB_CLIENT_SECRET
+    redirect_uri: "https://hookshot.hackerspace-ntnu.no/oauth"
+bot:
+  displayname: Hookshot Bot
+  avatar: "mxc://hackerspace-ntnu.no/WUBjxvogzGeddXlofWUwnvtF"

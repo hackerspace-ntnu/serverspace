@@ -1,0 +1,43 @@
+server_name: hackerspace-ntnu.no
+pid_file: /data/homeserver.pid
+listeners:
+  - port: 8008
+    tls: false
+    type: http
+    x_forwarded: true
+    resources:
+      - names: [client, federation]
+        compress: false
+database:
+  name: psycopg2
+  txn_limit: 10000
+  args:
+    user: DB_USER
+    password: DB_PASSWORD
+    database: DB_NAME
+    host: matrix-db-1
+    port: 5432
+    cp_min: 5
+    cp_max: 10
+enable_registration: false # Only allow adding users via Admin API
+log_config: /data/log.config
+media_store_path: /data/media_store
+registration_shared_secret: MATRIX_REGISTRATION_SHARED_SECRET
+report_stats: true
+macaroon_secret_key: MATRIX_SECRET_KEY
+form_secret: MATRIX_FORM_SECRET
+signing_key_path: /data/signing.key
+trusted_key_servers: []
+suppress_key_server_warning: true
+auto_join_rooms:
+  - "#main:hackerspace-ntnu.no"
+  - "#general:hackerspace-ntnu.no"
+  - "#welcome:hackerspace-ntnu.no"
+  - "#3d-printing:hackerspace-ntnu.no"
+  - "#website-updates:hackerspace-ntnu.no"
+  - "#dev-public:hackerspace-ntnu.no"
+  - "#rules:hackerspace-ntnu.no"
+  - "#announcements:hackerspace-ntnu.no"
+  - "#public-video:hackerspace-ntnu.no"
+app_service_config_files:
+  - /data/hookshot/registration.yml

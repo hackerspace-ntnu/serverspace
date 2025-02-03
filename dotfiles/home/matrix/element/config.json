@@ -1,0 +1,57 @@
+{
+    "default_server_name": "hackerspace-ntnu.no",
+    "default_server_config": {
+        "m.homeserver": {
+            "base_url": "https://matrix.hackerspace-ntnu.no"
+        }
+    },
+    "brand": "Hackerspace NTNU",
+    "integrations_ui_url": "",
+    "integrations_rest_url": "",
+    "integrations_widgets_urls": [],
+    "bug_report_endpoint_url": "https://github.com/hackerspace-ntnu/website-next/issues",
+    "show_labs_settings": true,
+    "room_directory": {
+        "servers": ["hackerspace-ntnu.no"]
+    },
+    "enable_presence_by_hs_url": {
+        "https://matrix.hackerspace-ntnu.no": true
+    },
+    "features": {
+        "feature_latex_maths": true,
+        "feature_pinning": true,
+        "feature_video_rooms": true,
+        "feature_element_call_video_rooms": true,
+        "feature_group_calls": true
+    },
+    "settingDefaults": {
+        "sendReadReceipts": true,
+        "breadcrumbs": true,
+        "MessageComposerInput.suggestEmoji": true,
+        "showRedactions": true,
+        "showJoinLeaves": true,
+        "showAvatarChanges": true,
+        "showDisplaynameChanges": true,
+        "showReadReceipts": true,
+        "autoplayGifs": true,
+        "enableSyntaxHighlightLanguageDetection": true,
+        "expandCodeByDefault": true,
+        "showCodeLineNumbers": true
+    },
+    "default_theme": "dark",
+    "permalink_prefix": "https://element.hackerspace-ntnu.no",
+    "mobile_guide_toast": true,
+    "map_style_url": "https://api.maptiler.com/maps/streets/style.json?key=fU3vlMsMn4Jb6dnEIFsx",
+    "defaultCountryCode": "NO",
+    "disable_3pid_login": true,
+    "disable_login_language_selector": true,
+    "disable_guests": true,
+    "disable_registration": true,
+    "branding": {
+        "welcome_background_url": "https://beta.hackerspace-ntnu.no/matrix/background.jpg",
+        "auth_header_logo_url": "https://beta.hackerspace-ntnu.no/matrix/logo.svg",
+        "auth_footer_links": [
+            { "text": "Website", "url": "https://beta.hackerspace-ntnu.no" }
+        ]
+    }
+}
