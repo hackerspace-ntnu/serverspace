@@ -1,0 +1,36 @@
+services:
+  minecraft:
+    image: itzg/minecraft-server:latest
+    container_name: minecraft
+    tty: true
+    stdin_open: true
+    ports:
+      - 25565:25565
+      - 8100:8100
+    environment:
+      EULA: true
+      TYPE: PAPER
+      VERSION: 1.21.4
+      MEMORY: 8G
+      USE_AIKAR_FLAGS: true
+      PLUGINS: |
+        https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar
+        https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsXChat-2.20.1.jar
+      MODRINTH_PROJECTS: |
+        luckperms
+        bluemap
+        minimotd
+        tabtps
+        coreprotect:llmrc4cl
+        chunky
+        freedomchat
+        provanish
+        waypoints:K4tng5ly
+      # Vault, Simple TPA
+      SPIGET_RESOURCES: |
+        34315
+        64270
+      DIFFICULTY: normal
+      TZ: Europe/Oslo
+    volumes:
+      - ./data:/data
