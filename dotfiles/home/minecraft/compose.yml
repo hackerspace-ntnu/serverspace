@@ -54,10 +54,9 @@ services:
         freedomchat
         provanish
         waypoints:K4tng5ly
-      # Vault, Simple TPA
+      # Vault
       SPIGET_RESOURCES: |
         34315
-        64270
       DIFFICULTY: normal
       TZ: Europe/Oslo
     volumes:
