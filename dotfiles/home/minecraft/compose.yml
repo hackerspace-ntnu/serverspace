@@ -1,12 +1,40 @@
 services:
-  minecraft:
+  router:
+    image: itzg/mc-router
+    container_name: mc-router
+    depends_on:
+      - minecraft-vanilla
+      - minecraft-modded
+    environment:
+      MAPPING: |
+        mc.hackerspace-ntnu.no=minecraft-vanilla:25565
+        modded.hackerspace-ntnu.no=minecraft-modded:25565
+    ports:
+      - 25565:25565
+    networks:
+      mc-network:
+        ipv4_address: 172.20.0.2
+  lazymc:
+    image: ghcr.io/joesturge/lazymc-docker-proxy:latest
+    container_name: lazymc
+    restart: unless-stopped
+    volumes:
+      - ./data:/server:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      mc-network:
+        ipv4_address: 172.20.0.3
+  minecraft-vanilla:
     image: itzg/minecraft-server:latest
-    container_name: minecraft
+    container_name: minecraft-vanilla
     tty: true
     stdin_open: true
     ports:
-      - 25565:25565
       - 8100:8100
+    labels:
+      - lazymc.enabled=true
+      - lazymc.group=minecraft-vanilla
+      - lazymc.server.address=minecraft-vanilla:25565
     environment:
       EULA: true
       TYPE: PAPER
@@ -33,4 +61,37 @@ services:
       DIFFICULTY: normal
       TZ: Europe/Oslo
     volumes:
-      - ./data:/data
+      - ./data/vanilla:/data
+    networks:
+      mc-network:
+        ipv4_address: 172.20.0.4
+  minecraft-modded:
+    image: itzg/minecraft-server:java8
+    container_name: minecraft-modded
+    tty: true
+    stdin_open: true
+    labels:
+      - lazymc.enabled=true
+      - lazymc.group=minecraft-modded
+      - lazymc.server.address=minecraft-modded:25565
+    environment:
+      EULA: true
+      TYPE: AUTO_CURSEFORGE
+      CF_SLUG: all-the-mods-6
+      MEMORY: 8G
+      USE_AIKAR_FLAGS: true
+      DIFFICULTY: normal
+      TZ: Europe/Oslo
+      CF_API_KEY: "ADD_CURSEFORGE_API_KEY_HERE"
+    volumes:
+      - ./data/modded:/data
+    networks:
+      mc-network:
+        ipv4_address: 172.20.0.5
+
+networks:
+  mc-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
