@@ -82,7 +82,7 @@ services:
       USE_AIKAR_FLAGS: true
       MOTD: "                  §7❱❱ §aHackerspace §9NTNU §7❰❰
 
-        \                          §cAll The Mods 6 §6SMP"
+        \                     §cAll The Mods 6 §6SMP"
       DIFFICULTY: normal
       TZ: Europe/Oslo
       CF_API_KEY: "ADD_CURSEFORGE_API_KEY_HERE"
