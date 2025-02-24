@@ -77,19 +77,19 @@ services:
       - lazymc.group=minecraft-modded
       - lazymc.server.address=minecraft-modded:25565
     restart: on-failure:5
-    env_file:
-      - .env
     environment:
       EULA: true
       TYPE: AUTO_CURSEFORGE
       CF_SLUG: all-the-mods-6
-      MEMORY: 8G
+      MEMORY: 12G
       USE_AIKAR_FLAGS: true
       MOTD: "                  §7❱❱ §aHackerspace §9NTNU §7❰❰
 
         \                     §cAll The Mods 6 §6SMP"
       DIFFICULTY: normal
       TZ: Europe/Oslo
+      ALLOW_FLIGHT: true
+      CF_API_KEY: ${CF_API_KEY}
     volumes:
       - ./data/modded:/data
     networks:
