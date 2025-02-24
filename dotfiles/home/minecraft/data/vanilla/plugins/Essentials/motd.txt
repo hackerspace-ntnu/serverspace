@@ -1,0 +1,6 @@
+&b&lVelkommen, {PLAYER}&b!
+&fDu spiller på &a&lHackerspace &f&9NTNU &fsin offisielle Minecraft server!
+&fServeren er drevet av &aDev&7Ops&f-gruppa.
+&fBli kjent med oss her: &9&nhackerspace-ntnu.no
+
+&7Spillere online:&c {ONLINE} &7- Tid:&c {WORLDTIME24}

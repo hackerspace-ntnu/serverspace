@@ -1,0 +1,106 @@
+services:
+  router:
+    image: itzg/mc-router
+    container_name: mc-router
+    depends_on:
+      - minecraft-vanilla
+      - minecraft-modded
+    environment:
+      MAPPING: |
+        mc.hackerspace-ntnu.no=minecraft-vanilla:25565
+        modded.hackerspace-ntnu.no=minecraft-modded:25565
+    ports:
+      - 25565:25565
+    restart: unless-stopped
+    networks:
+      mc-network:
+        ipv4_address: 172.20.0.2
+  lazymc:
+    image: ghcr.io/joesturge/lazymc-docker-proxy:latest
+    container_name: lazymc
+    restart: unless-stopped
+    volumes:
+      - ./data:/server:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      mc-network:
+        ipv4_address: 172.20.0.3
+  minecraft-vanilla:
+    image: itzg/minecraft-server:latest
+    container_name: minecraft-vanilla
+    tty: true
+    stdin_open: true
+    ports:
+      - 8100:8100
+    labels:
+      - lazymc.enabled=true
+      - lazymc.group=minecraft-vanilla
+      - lazymc.server.address=minecraft-vanilla:25565
+    restart: on-failure:5
+    environment:
+      EULA: true
+      TYPE: PAPER
+      VERSION: 1.21.4
+      MEMORY: 8G
+      USE_AIKAR_FLAGS: true
+      PLUGINS: |
+        https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsX-2.20.1.jar
+        https://github.com/EssentialsX/Essentials/releases/download/2.20.1/EssentialsXChat-2.20.1.jar
+      MODRINTH_PROJECTS: |
+        luckperms
+        bluemap
+        minimotd
+        tabtps
+        coreprotect:llmrc4cl
+        chunky
+        freedomchat
+        provanish
+        waypoints:K4tng5ly
+      # Vault
+      SPIGET_RESOURCES: |
+        34315
+      DIFFICULTY: normal
+      TZ: Europe/Oslo
+    volumes:
+      - ./data/vanilla:/data
+    networks:
+      mc-network:
+        ipv4_address: 172.20.0.4
+      nginx_default:
+  minecraft-modded:
+    image: itzg/minecraft-server:java8
+    container_name: minecraft-modded
+    tty: true
+    stdin_open: true
+    labels:
+      - lazymc.enabled=true
+      - lazymc.group=minecraft-modded
+      - lazymc.server.address=minecraft-modded:25565
+    restart: on-failure:5
+    env_file:
+      - .env
+    environment:
+      EULA: true
+      TYPE: AUTO_CURSEFORGE
+      CF_SLUG: all-the-mods-6
+      MEMORY: 8G
+      USE_AIKAR_FLAGS: true
+      MOTD: "                  §7❱❱ §aHackerspace §9NTNU §7❰❰
+
+        \                     §cAll The Mods 6 §6SMP"
+      DIFFICULTY: normal
+      TZ: Europe/Oslo
+    volumes:
+      - ./data/modded:/data
+    networks:
+      mc-network:
+        ipv4_address: 172.20.0.5
+
+networks:
+  mc-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+  nginx_default:
+    external: true
