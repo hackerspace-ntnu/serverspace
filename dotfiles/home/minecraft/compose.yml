@@ -11,6 +11,7 @@ services:
         modded.hackerspace-ntnu.no=minecraft-modded:25565
     ports:
       - 25565:25565
+    restart: unless-stopped
     networks:
       mc-network:
         ipv4_address: 172.20.0.2
@@ -35,6 +36,7 @@ services:
       - lazymc.enabled=true
       - lazymc.group=minecraft-vanilla
       - lazymc.server.address=minecraft-vanilla:25565
+    restart: on-failure:5
     environment:
       EULA: true
       TYPE: PAPER
@@ -74,6 +76,7 @@ services:
       - lazymc.enabled=true
       - lazymc.group=minecraft-modded
       - lazymc.server.address=minecraft-modded:25565
+    restart: on-failure:5
     environment:
       EULA: true
       TYPE: AUTO_CURSEFORGE
