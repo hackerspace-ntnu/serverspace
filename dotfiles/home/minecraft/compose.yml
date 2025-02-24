@@ -77,8 +77,6 @@ services:
       - lazymc.group=minecraft-modded
       - lazymc.server.address=minecraft-modded:25565
     restart: on-failure:5
-    env_file:
-      - .env
     environment:
       EULA: true
       TYPE: AUTO_CURSEFORGE
@@ -90,6 +88,7 @@ services:
         \                     §cAll The Mods 6 §6SMP"
       DIFFICULTY: normal
       TZ: Europe/Oslo
+      CF_API_KEY: ${CF_API_KEY}
     volumes:
       - ./data/modded:/data
     networks:
